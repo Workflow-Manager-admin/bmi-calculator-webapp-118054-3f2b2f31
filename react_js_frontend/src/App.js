@@ -62,7 +62,67 @@ function App() {
     setCategory(getBMICategory(roundedBMI));
   };
 
-  // UI for displaying BMI result and health category
+  // Suggestions mapping for each BMI category
+  const bmiSuggestions = {
+    Underweight: {
+      diet: [
+        "Eat more frequent, balanced meals.",
+        "Include calorie-dense foods like nuts, bananas, avocados.",
+        "Add healthy fats (olive oil, nut butters) to meals.",
+        "Consider smoothies with fruits, milk/yogurt, nut butters for extra calories.",
+      ],
+      exercise: [
+        "Focus on strength training to build muscle mass.",
+        "Limit excessive cardio.",
+        "Try yoga or pilates for overall fitness.",
+      ],
+    },
+    Normal: {
+      diet: [
+        "Maintain a balanced diet with fruits and vegetables.",
+        "Choose whole grains over refined ones.",
+        "Include lean proteins (chicken, fish, beans).",
+        "Watch portion sizes and stay hydrated.",
+      ],
+      exercise: [
+        "Aim for at least 150 minutes of moderate activity per week.",
+        "Include both cardio and strength exercises.",
+        "Enjoy outdoor activities, walking, cycling, or swimming.",
+      ],
+    },
+    Overweight: {
+      diet: [
+        "Increase intake of vegetables and fresh fruits.",
+        "Choose whole grains and reduce sugar/saturated fats.",
+        "Limit processed/junk foods.",
+        "Eat mindful portions and avoid late-night snacking.",
+        "Stay hydrated with water or herbal teas.",
+      ],
+      exercise: [
+        "Start with low-impact cardio: brisk walking, cycling, swimming.",
+        "Gradually add resistance training.",
+        "Aim for at least 30 minutes most days of the week.",
+        "Incorporate stretching to prevent injuries.",
+      ],
+    },
+    Obese: {
+      diet: [
+        "Focus on vegetable-based, high-fiber meals.",
+        "Limit sugar, processed foods, and sugary drinks.",
+        "Opt for grilled or baked over fried foods.",
+        "Eat smaller, more frequent meals if needed.",
+        "Consult a healthcare provider for a tailored plan.",
+      ],
+      exercise: [
+        "Begin with gentle, low-impact activity (walking, water aerobics).",
+        "Increase activity level gradually as tolerance improves.",
+        "Aim for short, regular sessions rather than long ones.",
+        "Consider working with a fitness professional.",
+      ],
+    },
+  };
+
+  // UI for displaying BMI result, health category, and personalized suggestions
   const renderResult = () =>
     bmi !== null && category ? (
       <div className="bmi-result" style={{ marginTop: 32 }}>
@@ -103,6 +163,51 @@ function App() {
           data-testid="bmi-category"
         >
           {category}
+        </div>
+        {/* Suggestions Section */}
+        <div
+          className="bmi-suggestions"
+          style={{
+            marginTop: 16,
+            padding: "10px 2px 4px 2px",
+            textAlign: "left",
+            borderTop: "1px solid #e9ecef",
+            fontSize: 15,
+            color: "#343741",
+            opacity: 0.97,
+          }}
+        >
+          <div style={{ fontWeight: 700, fontSize: 15, marginBottom: 4 }}>
+            {category === "Normal" ? "Tips to Stay Healthy:" : "Suggested Actions:"}
+          </div>
+          <div>
+            <span style={{ fontWeight: 500, color: COLORS.primary }}>Diet: </span>
+            <ul style={{
+              margin: "8px 0 8px 20px",
+              padding: 0,
+              listStyleType: "disc",
+              fontSize: 15,
+              lineHeight: "1.55"
+            }}>
+              {(bmiSuggestions[category]?.diet || []).map((tip, i) => (
+                <li key={`diet-${i}`}>{tip}</li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <span style={{ fontWeight: 500, color: COLORS.secondary }}>Exercise: </span>
+            <ul style={{
+              margin: "8px 0 2px 20px",
+              padding: 0,
+              listStyleType: "disc",
+              fontSize: 15,
+              lineHeight: "1.55"
+            }}>
+              {(bmiSuggestions[category]?.exercise || []).map((tip, i) => (
+                <li key={`exercise-${i}`}>{tip}</li>
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
     ) : null;
